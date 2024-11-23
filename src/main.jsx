@@ -5,6 +5,7 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import { BrowserRouter } from "react-router-dom";
 
 import App from "./App.jsx";
+import { UserDataProvider } from "./components/UserDataContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <Auth0Provider
@@ -15,7 +16,9 @@ createRoot(document.getElementById("root")).render(
     }}
   >
     <BrowserRouter>
-      <App />
+      <UserDataProvider>
+        <App />
+      </UserDataProvider>
     </BrowserRouter>
   </Auth0Provider>
 );

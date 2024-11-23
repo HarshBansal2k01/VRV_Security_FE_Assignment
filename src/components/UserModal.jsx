@@ -1,6 +1,20 @@
-import React from "react";
-
+import React, { useState } from "react";
+import { useUserData } from "./UserDataContext";
 const UserModal = ({ onClose }) => {
+  const { userData, setUserData } = useUserData();
+  const handleUserDataChange = (e) => {
+    const { name, value } = e.target;
+    setUserData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("submit", userData);
+  };
+
   return (
     <>
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -33,7 +47,7 @@ const UserModal = ({ onClose }) => {
               <span className="sr-only">Close modal</span>
             </button>
           </div>
-          <form className="p-4 md:p-5">
+          <form className="p-4 md:p-5" onSubmit={handleSubmit}>
             <div className="grid gap-4 mb-4 grid-cols-2">
               <div className="col-span-2">
                 <label
@@ -46,63 +60,77 @@ const UserModal = ({ onClose }) => {
                   type="text"
                   name="name"
                   id="name"
+                  value={userData.name}
+                  onChange={handleUserDataChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Type product name"
+                  placeholder="Enter Name"
                   required=""
                 />
               </div>
-              <div className="col-span-2 sm:col-span-1">
+              <div className="col-span-2">
                 <label
-                  htmlFor="price"
+                  htmlFor="email"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Price
+                  Email
                 </label>
                 <input
-                  type="number"
-                  name="price"
-                  id="price"
+                  type="email"
+                  name="email"
+                  value={userData.email}
+                  id="email"
+                  onChange={handleUserDataChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="$2999"
+                  placeholder="Enter Email"
                   required=""
                 />
               </div>
               <div className="col-span-2 sm:col-span-1">
                 <label
-                  htmlFor="category"
+                  htmlFor="role"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Category
+                  Role
                 </label>
                 <select
-                  id="category"
+                  id="role"
+                  name="role"
+                  onChange={handleUserDataChange}
+                  value={userData.role}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
-                  <option selected="">Select category</option>
+                  <option value="">Select Role</option>
                   <option value="TV">TV/Monitors</option>
                   <option value="PC">PC</option>
                   <option value="GA">Gaming/Console</option>
                   <option value="PH">Phones</option>
                 </select>
               </div>
-              <div className="col-span-2">
+              <div className="col-span-2 sm:col-span-1">
                 <label
-                  htmlFor="description"
+                  htmlFor="status"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Product Description
+                  Status
                 </label>
-                <textarea
-                  id="description"
-                  rows="4"
-                  className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="Write product description here"
-                ></textarea>
+                <select
+                  id="status"
+                  name="status"
+                  value={userData.status}
+                  onChange={handleUserDataChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                >
+                  <option value="">Select Status</option>
+                  <option value="TV">TV/Monitors</option>
+                  <option value="PC">PC</option>
+                  <option value="GA">Gaming/Console</option>
+                  <option value="PH">Phones</option>
+                </select>
               </div>
             </div>
             <button
               type="submit"
-              className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="text-gray-900 inline-flex items-center border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
             >
               <svg
                 className="me-1 -ms-1 w-5 h-5"
