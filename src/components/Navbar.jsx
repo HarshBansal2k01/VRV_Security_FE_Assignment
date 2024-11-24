@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import UserModal from "./UserModal";
+import RoleModal from "./RoleModal";
 import {
   Disclosure,
   DisclosureButton,
@@ -13,7 +14,8 @@ import {
   MenuItems,
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-
+import { useLocation } from "react-router-dom";
+import PermissionModal from "./PermissionModal";
 const navigation = [
   { name: "Users", href: "/users", current: true },
   { name: "Role", href: "/role", current: false },
@@ -27,9 +29,23 @@ function classNames(...classes) {
 const Navbar = () => {
   const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  let location = useLocation();
+  console.log(location.pathname);
   const toggleModal = () => {
     setIsModalOpen((prev) => !prev);
+  };
+
+  const renderModal = () => {
+    switch (location.pathname) {
+      case "/users":
+        return <UserModal onClose={toggleModal} />;
+      case "/role":
+        return <RoleModal onClose={toggleModal} />;
+      case "/permission":
+        return <PermissionModal onClose={toggleModal} />;
+      default:
+        return null;
+    }
   };
   return (
     <>
@@ -155,7 +171,9 @@ const Navbar = () => {
           </div>
         </DisclosurePanel>
       </Disclosure>
-      {isModalOpen && <UserModal onClose={toggleModal} />}
+      {/* {isModalOpen && <UserModal onClose={toggleModal} />} */}
+      {/* {isModalOpen && <RoleModal onClose={toggleModal} />} */}
+      {isModalOpen && renderModal()}
     </>
   );
 };

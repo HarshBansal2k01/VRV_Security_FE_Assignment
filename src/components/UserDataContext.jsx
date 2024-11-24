@@ -5,19 +5,29 @@ const UserDataContext = createContext();
 
 // Create a Provider Component
 export const UserDataProvider = ({ children }) => {
-  const [userData, setUserData] = useState({
-    name: "",
-    email: "",
-    role: "",
-    status: "",
-  });
+  const [userData, setUserData] = useState([]);
+  const [nextId, setNextId] = useState(1); // Track the next available ID
 
+  const addUser = (newUser) => {
+    setUserData((prev) => [...prev, { id: nextId, ...newUser }]);
+    setNextId((prevId) => prevId + 1);
+  };
+  const updateUser = (updatedUser) => {
+    setUserData((prev) =>
+      prev.map((user) => (user.id === updatedUser.id ? updatedUser : user))
+    );
+  };
+  const deleteUser = (userId) => {
+    setUserData((prev) => prev.filter((user) => user.id !== userId));
+  };
   return (
-    <UserDataContext.Provider value={{ userData, setUserData }}>
+    <UserDataContext.Provider
+      value={{ userData, addUser, updateUser, deleteUser }}
+    >
       {children}
     </UserDataContext.Provider>
   );
 };
 
-// Custom Hook to Use Form Data
+// Custom Hook to Use User Data
 export const useUserData = () => useContext(UserDataContext);
