@@ -85,6 +85,7 @@ const Navbar = () => {
               </div>
             </div>
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              {/* Add Button */}
               <button
                 onClick={() => {
                   if (isAuthenticated) {
@@ -98,6 +99,27 @@ const Navbar = () => {
               >
                 Add
               </button>
+
+              {/* Login/Logout Button */}
+              {!isAuthenticated ? (
+                <button
+                  onClick={loginWithRedirect}
+                  type="button"
+                  className="bg-gradient-to-r from-indigo-400 to-purple-500 text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 hover:from-indigo-500 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                >
+                  Log In
+                </button>
+              ) : (
+                <button
+                  onClick={() => logout({ returnTo: window.location.origin })}
+                  type="button"
+                  className="bg-gradient-to-r from-red-400 to-pink-500 text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 hover:from-red-500 hover:to-pink-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+                >
+                  Log Out
+                </button>
+              )}
+
+              {/* User Icon */}
               <Menu as="div" className="relative ml-3">
                 <div>
                   <MenuButton className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
