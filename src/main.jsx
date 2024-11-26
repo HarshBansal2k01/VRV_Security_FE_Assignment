@@ -6,6 +6,8 @@ import { BrowserRouter } from "react-router-dom";
 
 import App from "./App.jsx";
 import { UserDataProvider } from "./components/UserDataContext.jsx";
+import RoleProvider from "./components/RoleProvider.jsx";
+import PermissionProvider from "./components/PermissionProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
   <Auth0Provider
@@ -16,9 +18,13 @@ createRoot(document.getElementById("root")).render(
     }}
   >
     <BrowserRouter>
-      <UserDataProvider>
-        <App />
-      </UserDataProvider>
+      <PermissionProvider>
+        <RoleProvider>
+          <UserDataProvider>
+            <App />
+          </UserDataProvider>
+        </RoleProvider>
+      </PermissionProvider>
     </BrowserRouter>
   </Auth0Provider>
 );

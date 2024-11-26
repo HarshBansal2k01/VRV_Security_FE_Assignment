@@ -1,45 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
+import { useRoleContext } from "./RoleProvider";
+import { usePermissionContext } from "./PermissionProvider";
+import RoleModal from "./RoleModal";
 
 const RoleManagement = () => {
+  const { roles, deleteRole } = useRoleContext();
+  const { rolePermissions } = usePermissionContext();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedRole, setSelectedRole] = useState(null);
+
+  const toggleModal = (role = null) => {
+    setSelectedRole(role);
+    setIsModalOpen((prev) => !prev);
+  };
+
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-2 ml-1 mr-1">
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            <th scope="col" className="px-6 py-3">
-              Role
-            </th>
-            <th scope="col" className="px-6 py-3">
-            Permission
-            </th>
-            {/* <th scope="col" className="px-6 py-3">
-                Edit
+    <>
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-2 ml-1 mr-1">
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" className="px-6 py-3">
+                Role
               </th>
               <th scope="col" className="px-6 py-3">
-                Delete
-              </th> */}
-            <th scope="col" className="px-6 py-3"></th>
-            <th scope="col" className="px-6 py-3"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* {userData.map((user) => (
+                Permissions
+              </th>{" "}
+              <th scope="col" className="px-6 py-3">
+                Description
+              </th>
+              <th scope="col" className="px-6 py-3"></th>
+              <th scope="col" className="px-6 py-3"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {roles.map((role) => (
               <tr
-                key={user.id} // Use the unique ID
+                key={role.id} // Ensure each role has a unique ID
                 className="odd:bg-white even:bg-gray-50 border-b"
               >
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                >
-                  {user.name}
-                </th>
-                <td className="px-6 py-4">{user.email}</td>
-                <td className="px-6 py-4">{user.role}</td>
-                <td className="px-6 py-4">{user.status}</td>
+                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                  {role.name}
+                </td>
+                <td className="px-6 py-4 text-gray-700 dark:text-gray-300">
+                  {rolePermissions[role.id]?.length
+                    ? rolePermissions[role.id].join(", ")
+                    : "No permission given"}{" "}
+                </td>
+                <td className="px-6 py-4 text-gray-700 dark:text-gray-300">
+                  {role.description}
+                </td>
                 <td className="px-6 py-4">
                   <button
-                    onClick={() => toggleModal(user)}
+                    onClick={() => toggleModal(role)}
                     className="text-blue-600 hover:underline"
                   >
                     Update
@@ -47,17 +61,21 @@ const RoleManagement = () => {
                 </td>
                 <td className="px-6 py-4">
                   <button
-                    onClick={() => deleteUser(user.id)}
-                    className="text-blue-600 hover:underline"
+                    onClick={() => deleteRole(role.id)}
+                    className="text-red-600 hover:underline"
                   >
                     Delete
                   </button>
                 </td>
               </tr>
-            ))} */}
-        </tbody>
-      </table>
-    </div>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {isModalOpen && (
+        <RoleModal onClose={toggleModal} existingRole={selectedRole} />
+      )}
+    </>
   );
 };
 
