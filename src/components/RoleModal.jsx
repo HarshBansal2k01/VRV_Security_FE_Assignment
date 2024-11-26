@@ -25,40 +25,41 @@ const RoleModal = ({ onClose, existingRole = null }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white rounded-lg shadow-lg p-5 max-w-md w-full dark:bg-gray-700">
-        <div className="flex justify-between items-center p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50">
+      <div className="bg-gradient-to-b from-indigo-50 to-purple-50 rounded-lg shadow-lg w-full max-w-lg">
+        {/* Modal Header */}
+        <div className="flex justify-between items-center p-5 bg-gradient-to-r from-purple-100 via-indigo-100 to-blue-100 border-b border-gray-200 rounded-t-lg">
+          <h2 className="text-xl font-bold text-gray-800">
             {existingRole ? "Update Role" : "Add New Role"}
           </h2>
           <button
             onClick={onClose}
-            type="button"
-            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            className="p-2 text-gray-400 hover:text-gray-600 transition-all rounded-full"
+            aria-label="Close Modal"
           >
             <svg
-              className="w-3 h-3"
-              aria-hidden="true"
+              className="w-5 h-5"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
-              viewBox="0 0 14 14"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
             >
               <path
-                stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth="2"
-                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                d="M6 18L18 6M6 6l12 12"
               />
             </svg>
-            <span className="sr-only">Close modal</span>
           </button>
         </div>
-        <form className="p-4 md:p-5" onSubmit={handleSubmit}>
-          <div className="mb-4">
+
+        {/* Modal Body */}
+        <form className="p-6 space-y-6" onSubmit={handleSubmit}>
+          <div>
             <label
               htmlFor="name"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-700"
             >
               Role Name
             </label>
@@ -68,15 +69,15 @@ const RoleModal = ({ onClose, existingRole = null }) => {
               id="name"
               value={formData.name}
               onChange={handleInputChange}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              className="w-full p-3 text-sm bg-white border border-indigo-200 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Enter Role Name"
               required
             />
           </div>
-          <div className="mb-4">
+          <div>
             <label
               htmlFor="description"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-700"
             >
               Description
             </label>
@@ -85,14 +86,14 @@ const RoleModal = ({ onClose, existingRole = null }) => {
               id="description"
               value={formData.description}
               onChange={handleInputChange}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              className="w-full p-3 text-sm bg-white border border-indigo-200 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Enter Description"
               required
-            ></textarea>
+            />
           </div>
           <button
             type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            className="w-full py-3 px-4 text-white bg-gradient-to-r from-indigo-400 via-purple-500 to-blue-400 rounded-lg shadow-md hover:shadow-lg transition-all"
           >
             {existingRole ? "Update Role" : "Add Role"}
           </button>

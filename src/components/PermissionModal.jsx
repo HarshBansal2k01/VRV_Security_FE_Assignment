@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import { usePermissionContext } from "./PermissionProvider";
-import { useRoleContext } from "./RoleProvider"; // Assuming roles come from this provider.
+import { useRoleContext } from "./RoleProvider";
 
 const PermissionModal = ({ onClose, role }) => {
   const { roles } = useRoleContext();
   const { rolePermissions, addOrUpdateRole } = usePermissionContext();
 
   const predefinedPermissions = ["Read", "Write", "ReadWrite"];
-  const [selectedRole, setSelectedRole] = useState("");
-  const [selectedPermissions, setSelectedPermissions] = useState([]);
+  const [selectedRole, setSelectedRole] = useState(role?.id || "");
+  const [selectedPermissions, setSelectedPermissions] = useState(
+    role ? rolePermissions[role.id] || [] : []
+  );
 
   const handleRoleChange = (e) => {
-    const roleId = e.target.value;  
+    const roleId = e.target.value;
     setSelectedRole(roleId);
     setSelectedPermissions(rolePermissions[roleId] || []);
   };
@@ -32,27 +34,45 @@ const PermissionModal = ({ onClose, role }) => {
     onClose();
   };
 
+  const isUpdating = Boolean(role);
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white rounded-lg shadow-lg p-5 max-w-md w-full dark:bg-gray-700">
-        <div className="flex justify-between items-center p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-            Manage Permissions
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50">
+      <div className="bg-gradient-to-b from-indigo-50 to-purple-50 rounded-lg shadow-lg w-full max-w-lg">
+        {/* Modal Header */}
+        <div className="flex justify-between items-center p-5 bg-gradient-to-r from-purple-100 via-indigo-100 to-blue-100 border-b border-gray-200 rounded-t-lg">
+          <h2 className="text-xl font-bold text-gray-800">
+            {isUpdating ? "Update Permissions" : "Add Permissions"}
           </h2>
           <button
             onClick={onClose}
-            type="button"
-            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            className="p-2 text-gray-400 hover:text-gray-600 transition-all rounded-full"
+            aria-label="Close Modal"
           >
-            Close
+            <svg
+              className="w-5 h-5"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m6 18 12-12M6 6l12 12"
+              />
+            </svg>
           </button>
         </div>
-        <form className="p-4 md:p-5" onSubmit={handleSubmit}>
+
+        {/* Modal Body */}
+        <form className="p-6 space-y-6" onSubmit={handleSubmit}>
           {/* Dropdown for selecting roles */}
-          <div className="mb-4">
+          <div>
             <label
               htmlFor="role"
-              className="block text-sm font-medium mb-2 text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-700"
             >
               Select Role
             </label>
@@ -60,7 +80,8 @@ const PermissionModal = ({ onClose, role }) => {
               id="role"
               value={selectedRole}
               onChange={handleRoleChange}
-              className="w-full p-2 border rounded-lg dark:bg-gray-600 dark:text-white"
+              className="w-full p-3 text-sm bg-white border border-indigo-200 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              disabled={isUpdating} // Disable if updating
             >
               <option value="">Select a role</option>
               {roles.map((role) => (
@@ -72,8 +93,8 @@ const PermissionModal = ({ onClose, role }) => {
           </div>
 
           {/* Permissions checkboxes */}
-          <div className="mb-4">
-            <h3 className="text-sm font-medium mb-2 text-gray-900 dark:text-white">
+          <div>
+            <h3 className="text-sm font-medium mb-2 text-gray-700">
               Permissions
             </h3>
             {predefinedPermissions.map((permission) => (
@@ -85,10 +106,7 @@ const PermissionModal = ({ onClose, role }) => {
                   onChange={() => handlePermissionChange(permission)}
                   className="mr-2"
                 />
-                <label
-                  htmlFor={permission}
-                  className="text-sm text-gray-900 dark:text-white"
-                >
+                <label htmlFor={permission} className="text-sm text-gray-700">
                   {permission}
                 </label>
               </div>
@@ -97,9 +115,9 @@ const PermissionModal = ({ onClose, role }) => {
 
           <button
             type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            className="w-full py-3 px-4 text-white bg-gradient-to-r from-indigo-400 via-purple-500 to-blue-400 rounded-lg shadow-md hover:shadow-lg transition-all"
           >
-            Save
+            {isUpdating ? "Update" : "Add"}
           </button>
         </form>
       </div>

@@ -19,11 +19,11 @@ createRoot(document.getElementById("root")).render(
   >
     <BrowserRouter>
       <PermissionProvider>
-        <RoleProvider>
-          <UserDataProvider>
+        <UserDataProvider>
+          <RoleProvider>
             <App />
-          </UserDataProvider>
-        </RoleProvider>
+          </RoleProvider>
+        </UserDataProvider>
       </PermissionProvider>
     </BrowserRouter>
   </Auth0Provider>

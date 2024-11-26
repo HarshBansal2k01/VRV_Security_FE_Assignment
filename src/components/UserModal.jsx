@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useUserData } from "./UserDataContext";
+import { useRoleContext } from "./RoleProvider";
 
 const UserModal = ({ onClose, existingUser = null }) => {
   const { addUser, updateUser } = useUserData();
+  const { roles } = useRoleContext();
   const [formData, setFormData] = useState({
     name: existingUser?.name || "",
     email: existingUser?.email || "",
@@ -18,7 +20,7 @@ const UserModal = ({ onClose, existingUser = null }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (existingUser) {
-      updateUser({ id: existingUser.id, ...formData }); // Call `updateUser`
+      updateUser({ id: existingUser.id, ...formData });
     } else {
       addUser(formData);
     }
@@ -27,116 +29,129 @@ const UserModal = ({ onClose, existingUser = null }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white rounded-lg shadow-lg p-5 max-w-md w-full dark:bg-gray-700">
-        <div className="flex justify-between items-center p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50">
+      <div className="bg-gradient-to-b from-indigo-50 to-purple-50 rounded-lg shadow-lg w-full max-w-lg">
+        {/* Modal Header */}
+        <div className="flex justify-between items-center p-5 bg-gradient-to-r from-purple-100 via-indigo-100 to-blue-100 border-b border-gray-200 rounded-t-lg">
+          <h2 className="text-xl font-bold text-gray-800">
             {existingUser ? "Update User" : "Add New User"}
           </h2>
           <button
             onClick={onClose}
-            type="button"
-            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            className="p-2 text-gray-400 hover:text-gray-600 transition-all rounded-full"
+            aria-label="Close Modal"
           >
             <svg
-              className="w-3 h-3"
-              aria-hidden="true"
+              className="w-5 h-5"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
-              viewBox="0 0 14 14"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
             >
               <path
-                stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth="2"
-                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                d="M6 18L18 6M6 6l12 12"
               />
             </svg>
-            <span className="sr-only">Close modal</span>
           </button>
         </div>
-        <form className="p-4 md:p-5" onSubmit={handleSubmit}>
-          <div className="grid gap-4 mb-4 grid-cols-2">
-            <div className="col-span-2">
-              <label
-                htmlFor="name"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Name
-              </label>
-              <input
-                type="text"
-                name="name"
-                id="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                placeholder="Enter Name"
-                required
-              />
-            </div>
-            <div className="col-span-2">
-              <label
-                htmlFor="email"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                placeholder="Enter Email"
-                required
-              />
-            </div>
-            <div className="col-span-2 sm:col-span-1">
-              <label
-                htmlFor="role"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Role
-              </label>
-              <select
-                id="role"
-                name="role"
-                value={formData.role}
-                onChange={handleInputChange}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600"
-              >
-                <option value="">Select Role</option>
-                <option value="Admin">Admin</option>
-                <option value="Editor">Editor</option>
-                <option value="Viewer">Viewer</option>
-              </select>
-            </div>
-            <div className="col-span-2 sm:col-span-1">
-              <label
-                htmlFor="status"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Status
-              </label>
-              <select
-                id="status"
-                name="status"
-                value={formData.status}
-                onChange={handleInputChange}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600"
-              >
-                <option value="">Select Status</option>
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-              </select>
-            </div>
+
+        {/* Modal Body */}
+        <form className="p-6 space-y-6" onSubmit={handleSubmit}>
+          <div>
+            <label
+              htmlFor="name"
+              className="block mb-2 text-sm font-medium text-gray-700"
+            >
+              Name
+            </label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              className="w-full p-3 text-sm bg-white border border-indigo-200 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="Enter Name"
+              required
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="email"
+              className="block mb-2 text-sm font-medium text-gray-700"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              className="w-full p-3 text-sm bg-white border border-indigo-200 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="Enter Email"
+              required
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="role"
+              className="block mb-2 text-sm font-medium text-gray-700"
+            >
+              Role
+            </label>
+            <select
+              id="role"
+              name="role"
+              value={formData.role}
+              onChange={handleInputChange}
+              required
+              className="w-full p-3 text-sm bg-white border border-indigo-200 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            >
+              <option value="" disabled>
+                Select Role
+              </option>
+              {roles.length === 0 ? (
+                <option value="no-roles" disabled>
+                  No Roles Available
+                </option>
+              ) : (
+                roles.map((role) => (
+                  <option key={role.id} value={role.name}>
+                    {role.name}
+                  </option>
+                ))
+              )}
+            </select>
+          </div>
+          <div>
+            <label
+              htmlFor="status"
+              className="block mb-2 text-sm font-medium text-gray-700"
+            >
+              Status
+            </label>
+            <select
+              id="status"
+              name="status"
+              value={formData.status}
+              onChange={handleInputChange}
+              required
+              className="w-full p-3 text-sm bg-white border border-indigo-200 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            >
+              <option value="" disabled>
+                Select Status
+              </option>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
           </div>
           <button
             type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            className="w-full py-3 px-4 text-white bg-gradient-to-r from-indigo-400 via-purple-500 to-blue-400 rounded-lg shadow-md hover:shadow-lg transition-all"
           >
             {existingUser ? "Update User" : "Add User"}
           </button>

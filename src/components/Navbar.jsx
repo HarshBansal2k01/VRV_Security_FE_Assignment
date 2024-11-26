@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import UserModal from "./UserModal";
 import RoleModal from "./RoleModal";
+import PermissionModal from "./PermissionModal";
 import {
   Disclosure,
   DisclosureButton,
@@ -14,12 +15,11 @@ import {
   MenuItems,
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useLocation } from "react-router-dom";
-import PermissionModal from "./PermissionModal";
+
 const navigation = [
-  { name: "Users", href: "/users", current: true },
-  { name: "Role", href: "/role", current: false },
-  { name: "Permission", href: "/permission", current: false },
+  { name: "Users", href: "/users" },
+  { name: "Role", href: "/role" },
+  { name: "Permission", href: "/permission" },
 ];
 
 function classNames(...classes) {
@@ -29,14 +29,15 @@ function classNames(...classes) {
 const Navbar = () => {
   const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  let location = useLocation();
-  console.log(location.pathname);
+  const location = useLocation(); // Get the current route
+
   const toggleModal = () => {
     setIsModalOpen((prev) => !prev);
   };
 
   const renderModal = () => {
     switch (location.pathname) {
+      case "/":
       case "/users":
         return <UserModal onClose={toggleModal} />;
       case "/role":
@@ -47,34 +48,23 @@ const Navbar = () => {
         return null;
     }
   };
+
   return (
     <>
-      <Disclosure as="nav" className="bg-gray-800">
+      <Disclosure
+        as="nav"
+        className="bg-gradient-to-r from-blue-800 to-purple-900"
+      >
         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
           <div className="relative flex h-16 items-center justify-between">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-              {/* Mobile menu button */}
-              <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                <span className="absolute -inset-0.5" />
+              <DisclosureButton className="inline-flex items-center justify-center rounded-md p-2 text-gray-300 hover:bg-blue-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                 <span className="sr-only">Open main menu</span>
-                <Bars3Icon
-                  aria-hidden="true"
-                  className="block size-6 group-data-[open]:hidden"
-                />
-                <XMarkIcon
-                  aria-hidden="true"
-                  className="hidden size-6 group-data-[open]:block"
-                />
+                <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                <XMarkIcon className="hidden h-6 w-6" aria-hidden="true" />
               </DisclosureButton>
             </div>
             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-              <div className="flex shrink-0 items-center">
-                <img
-                  alt="Your Company"
-                  src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500"
-                  className="h-8 w-auto"
-                />
-              </div>
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4">
                   {navigation.map((item) => (
@@ -82,9 +72,9 @@ const Navbar = () => {
                       key={item.name}
                       to={item.href}
                       className={classNames(
-                        item.current
-                          ? "bg-gray-900 text-white"
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                        location.pathname === item.href
+                          ? "bg-gradient-to-r from-blue-400 via-cyan-500 to-purple-500 text-white animate-water-flow bg-[length:400%_100%]"
+                          : "text-gray-300 hover:bg-blue-700 hover:text-white",
                         "rounded-md px-3 py-2 text-sm font-medium"
                       )}
                     >
@@ -96,40 +86,41 @@ const Navbar = () => {
             </div>
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <button
-                onClick={toggleModal}
+                onClick={() => {
+                  if (isAuthenticated) {
+                    toggleModal();
+                  } else {
+                    alert("Please log in first to use this feature.");
+                  }
+                }}
                 type="button"
-                className="text-gray-900  border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                className="bg-gradient-to-r from-green-400 to-blue-500 text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 hover:from-green-500 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 Add
               </button>
-
-              {/* Profile dropdown */}
               <Menu as="div" className="relative ml-3">
                 <div>
-                  <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                    <span className="absolute -inset-1.5" />
+                  <MenuButton className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                     <span className="sr-only">Open user menu</span>
-                    <img
-                      src={user ? user.picture : <AccountCircleIcon />}
-                      alt={user ? user.name : "name"}
-                      className="size-8 rounded-full"
-                    />
+                    {user ? (
+                      <img
+                        src={user.picture}
+                        alt={user.name}
+                        className="h-8 w-8 rounded-full"
+                      />
+                    ) : (
+                      <AccountCircleIcon className="h-8 w-8 text-gray-400" />
+                    )}
                   </MenuButton>
                 </div>
-                <MenuItems
-                  transition
-                  className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-                >
+                <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                   {isAuthenticated ? (
                     <MenuItem>
                       <button
-                        type="button"
                         onClick={() =>
-                          logout({
-                            logoutParams: { returnTo: window.location.origin },
-                          })
+                          logout({ returnTo: window.location.origin })
                         }
-                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
                         Sign Out
                       </button>
@@ -137,9 +128,8 @@ const Navbar = () => {
                   ) : (
                     <MenuItem>
                       <button
-                        type="button"
-                        onClick={() => loginWithRedirect()}
-                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+                        onClick={loginWithRedirect}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
                         Sign In
                       </button>
@@ -159,9 +149,9 @@ const Navbar = () => {
                 as={Link}
                 to={item.href}
                 className={classNames(
-                  item.current
-                    ? "bg-gray-900 text-white"
-                    : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                  location.pathname === item.href
+                    ? "bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white"
+                    : "text-gray-300 hover:bg-blue-700 hover:text-white",
                   "block rounded-md px-3 py-2 text-base font-medium"
                 )}
               >
@@ -171,8 +161,6 @@ const Navbar = () => {
           </div>
         </DisclosurePanel>
       </Disclosure>
-      {/* {isModalOpen && <UserModal onClose={toggleModal} />} */}
-      {/* {isModalOpen && <RoleModal onClose={toggleModal} />} */}
       {isModalOpen && renderModal()}
     </>
   );
