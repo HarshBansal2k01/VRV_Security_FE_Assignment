@@ -55,9 +55,9 @@ const Navbar = ({ onLogin, onLogout, isAuthenticated , user}) => {
   };
 
   // Handle login action
-  const handleLogin = () => {
-    loginWithRedirect();
-  };
+  // const handleLogin = () => {
+  //   loginWithRedirect();
+  // };
 
   // Handle logout action
   // const handleLogout = async () => {

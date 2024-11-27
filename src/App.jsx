@@ -10,7 +10,8 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 function App() {
-  const { isLoading, isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
+  const { isLoading, isAuthenticated, loginWithRedirect, logout, user } =
+    useAuth0();
   const [loading, setLoading] = useState(false);
 
   // Show spinner when login/logout is triggered
@@ -21,11 +22,13 @@ function App() {
   };
 
   const handleLogout = async () => {
-    setLoading(true);
+    setLoading(true); // Show spinner immediately
     await logout({ returnTo: window.location.origin });
-    toast.success("Logged out successfully");
 
-    setLoading(false);
+    toast.success("Logged out successfully");
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
   };
 
   useEffect(() => {
