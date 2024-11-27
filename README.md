@@ -1,5 +1,3 @@
-Here is a README file for your project:
-
 ---
 
 # VRV Security Frontend Assignment
@@ -100,4 +98,3 @@ This project adheres to all functionality requirements of a **Role-Based Access 
 
 ---
 
-Enjoy building and managing your RBAC system! 🚀
