@@ -1,10 +1,8 @@
 import React, { createContext, useState, useContext } from "react";
 import { toast } from "react-toastify";
 
-// Create the Context
 const UserDataContext = createContext();
 
-// Create a Provider Component
 export const UserDataProvider = ({ children }) => {
   const [userData, setUserData] = useState([]);
   const [nextId, setNextId] = useState(1); // Track the next available ID
@@ -33,5 +31,4 @@ export const UserDataProvider = ({ children }) => {
   );
 };
 
-// Custom Hook to Use User Data
 export const useUserData = () => useContext(UserDataContext);

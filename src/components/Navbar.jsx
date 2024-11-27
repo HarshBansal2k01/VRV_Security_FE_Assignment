@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import UserModal from "./UserModal";
 import RoleModal from "./RoleModal";
@@ -19,7 +18,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 // Import React-Toastify
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Ensure you import this CSS
+import "react-toastify/dist/ReactToastify.css";
 
 const navigation = [
   { name: "Users", href: "/users" },
@@ -32,7 +31,6 @@ function classNames(...classes) {
 }
 
 const Navbar = ({ onLogin, onLogout, isAuthenticated , user}) => {
-  // const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const location = useLocation(); // Get the current route
 
@@ -54,27 +52,7 @@ const Navbar = ({ onLogin, onLogout, isAuthenticated , user}) => {
     }
   };
 
-  // Handle login action
-  // const handleLogin = () => {
-  //   loginWithRedirect();
-  // };
-
-  // Handle logout action
-  // const handleLogout = async () => {
-  //   try {
-  //     await logout({ returnTo: window.location.origin });
-  //     toast.success("Logged out successfully!");
-  //   } catch (error) {
-  //     toast.error("Error logging out!");
-  //   }
-  // };
-
-  // Show toast after successful login
-  // useEffect(() => {
-  //   if (isAuthenticated && user) {
-  //     toast.success("Logged in successfully!");
-  //   }
-  // }, [isAuthenticated, user]); // This will run when `isAuthenticated` or `user` changes
+ 
 
   return (
     <>

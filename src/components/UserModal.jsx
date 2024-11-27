@@ -34,7 +34,6 @@ const UserModal = ({ onClose, existingUser = null }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50">
       <div className="bg-gradient-to-b from-indigo-50 to-purple-50 rounded-lg shadow-lg w-full max-w-lg">
-        {/* Modal Header */}
         <div className="flex justify-between items-center p-5 bg-gradient-to-r from-purple-100 via-indigo-100 to-blue-100 border-b border-gray-200 rounded-t-lg">
           <h2 className="text-xl font-bold text-gray-800">
             {existingUser ? "Update User" : "Add New User"}
@@ -61,7 +60,6 @@ const UserModal = ({ onClose, existingUser = null }) => {
           </button>
         </div>
 
-        {/* Modal Body */}
         <form className="p-6 space-y-6" onSubmit={handleSubmit}>
           <div>
             <label

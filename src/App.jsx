@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar";
 import UserManagement from "./components/UserManagement";
 import RoleManagement from "./components/RoleManagement";
 import PermissionManagement from "./components/PermissionManagement";
-import { useAuth0 } from "@auth0/auth0-react"; // Auth0 hook
+import { useAuth0 } from "@auth0/auth0-react"; 
 import MoonLoader from "react-spinners/MoonLoader";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";

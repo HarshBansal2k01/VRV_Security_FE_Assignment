@@ -39,7 +39,6 @@ const PermissionModal = ({ onClose, role }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50">
       <div className="bg-gradient-to-b from-indigo-50 to-purple-50 rounded-lg shadow-lg w-full max-w-lg">
-        {/* Modal Header */}
         <div className="flex justify-between items-center p-5 bg-gradient-to-r from-purple-100 via-indigo-100 to-blue-100 border-b border-gray-200 rounded-t-lg">
           <h2 className="text-xl font-bold text-gray-800">
             {isUpdating ? "Update Permissions" : "Add Permissions"}
@@ -66,9 +65,7 @@ const PermissionModal = ({ onClose, role }) => {
           </button>
         </div>
 
-        {/* Modal Body */}
         <form className="p-6 space-y-6" onSubmit={handleSubmit}>
-          {/* Dropdown for selecting roles */}
           <div>
             <label
               htmlFor="role"
@@ -81,7 +78,7 @@ const PermissionModal = ({ onClose, role }) => {
               value={selectedRole}
               onChange={handleRoleChange}
               className="w-full p-3 text-sm bg-white border border-indigo-200 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-              disabled={isUpdating} // Disable if updating
+              disabled={isUpdating} 
             >
               <option value="">Select a role</option>
               {roles.map((role) => (
@@ -92,7 +89,6 @@ const PermissionModal = ({ onClose, role }) => {
             </select>
           </div>
 
-          {/* Permissions checkboxes */}
           <div>
             <h3 className="text-sm font-medium mb-2 text-gray-700">
               Permissions

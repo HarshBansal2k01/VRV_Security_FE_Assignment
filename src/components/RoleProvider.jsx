@@ -2,10 +2,8 @@ import React, { createContext, useState, useContext } from "react";
 import { useUserData } from "./UserDataContext";
 import { toast } from "react-toastify";
 
-// Create the context
 const RoleContext = createContext();
 
-// Custom hook to use RoleContext
 export const useRoleContext = () => useContext(RoleContext);
 
 const RoleProvider = ({ children }) => {
