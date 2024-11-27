@@ -73,7 +73,9 @@ This project is a **Role-Based Access Control (RBAC)** system that allows for th
 ## 📹 Demo
 
 - A video showcasing the project is attached for reference.
-[vrvsecurityFE.webm](https://github.com/user-attachments/assets/2537ab7a-4710-43e1-8578-3177cb5dae77)
+
+
+[vrvsecurityFE.webm](https://github.com/user-attachments/assets/c8d5f825-8029-42d5-9191-2137bb1f8062)
 
 ---
 
