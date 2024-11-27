@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext } from "react";
 import { useUserData } from "./UserDataContext";
+import { toast } from "react-toastify";
 
 // Create the context
 const RoleContext = createContext();
@@ -16,6 +17,7 @@ const RoleProvider = ({ children }) => {
     const roleWithId = { id: nextId, ...newRole }; // Add unique ID to the new role
     setRoles((prevRoles) => [...prevRoles, roleWithId]);
     setNextId((prevId) => prevId + 1); // Increment ID for the next role
+    toast.success("Role added successfully")
   };
 
   // Function to update an existing role
@@ -25,6 +27,8 @@ const RoleProvider = ({ children }) => {
         role.id === updatedRole.id ? { ...role, ...updatedRole } : role
       )
     );
+    toast.success("Role updated successfully")
+
   };
 
   // Function to delete a role
@@ -38,6 +42,8 @@ const RoleProvider = ({ children }) => {
         updateUser({ ...user, role: null }); // Set role to null or "Unassigned"
       }
     });
+    toast.success("Role deleted successfully")
+
   };
 
   return (

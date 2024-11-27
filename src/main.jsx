@@ -8,7 +8,8 @@ import App from "./App.jsx";
 import { UserDataProvider } from "./components/UserDataContext.jsx";
 import RoleProvider from "./components/RoleProvider.jsx";
 import PermissionProvider from "./components/PermissionProvider.jsx";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 createRoot(document.getElementById("root")).render(
   <Auth0Provider
     domain="dev-zhg7p7jix57jrq2w.us.auth0.com"
@@ -17,6 +18,7 @@ createRoot(document.getElementById("root")).render(
       redirect_uri: window.location.origin,
     }}
   >
+    <ToastContainer />
     <BrowserRouter>
       <PermissionProvider>
         <UserDataProvider>

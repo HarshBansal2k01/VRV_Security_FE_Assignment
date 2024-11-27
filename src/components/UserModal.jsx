@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useUserData } from "./UserDataContext";
 import { useRoleContext } from "./RoleProvider";
+import { toast } from "react-toastify";
 
 const UserModal = ({ onClose, existingUser = null }) => {
   const { addUser, updateUser } = useUserData();
@@ -21,8 +22,10 @@ const UserModal = ({ onClose, existingUser = null }) => {
     e.preventDefault();
     if (existingUser) {
       updateUser({ id: existingUser.id, ...formData });
+      toast.success("User updated successfully!");
     } else {
       addUser(formData);
+      toast.success("User added successfully!");
     }
     setFormData({ name: "", email: "", role: "", status: "" });
     onClose();

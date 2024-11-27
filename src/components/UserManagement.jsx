@@ -19,6 +19,7 @@ const UserManagement = () => {
     setSelectedUser(user);
     setIsModalOpen((prev) => !prev);
   };
+  
 
   return (
     <>

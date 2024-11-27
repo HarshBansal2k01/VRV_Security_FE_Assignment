@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import UserModal from "./UserModal";
 import RoleModal from "./RoleModal";
 import PermissionModal from "./PermissionModal";
+
 import {
   Disclosure,
   DisclosureButton,
@@ -16,6 +17,10 @@ import {
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
+// Import React-Toastify
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Ensure you import this CSS
+
 const navigation = [
   { name: "Users", href: "/users" },
   { name: "Role", href: "/role" },
@@ -26,8 +31,8 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Navbar = () => {
-  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
+const Navbar = ({ onLogin, onLogout, isAuthenticated , user}) => {
+  // const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const location = useLocation(); // Get the current route
 
@@ -48,6 +53,28 @@ const Navbar = () => {
         return null;
     }
   };
+
+  // Handle login action
+  const handleLogin = () => {
+    loginWithRedirect();
+  };
+
+  // Handle logout action
+  // const handleLogout = async () => {
+  //   try {
+  //     await logout({ returnTo: window.location.origin });
+  //     toast.success("Logged out successfully!");
+  //   } catch (error) {
+  //     toast.error("Error logging out!");
+  //   }
+  // };
+
+  // Show toast after successful login
+  // useEffect(() => {
+  //   if (isAuthenticated && user) {
+  //     toast.success("Logged in successfully!");
+  //   }
+  // }, [isAuthenticated, user]); // This will run when `isAuthenticated` or `user` changes
 
   return (
     <>
@@ -91,7 +118,7 @@ const Navbar = () => {
                   if (isAuthenticated) {
                     toggleModal();
                   } else {
-                    alert("Please log in first to use this feature.");
+                    toast.warning("Please log in first to use this feature.");
                   }
                 }}
                 type="button"
@@ -103,7 +130,7 @@ const Navbar = () => {
               {/* Login/Logout Button */}
               {!isAuthenticated ? (
                 <button
-                  onClick={loginWithRedirect}
+                  onClick={onLogin} // Use handleLogin for login
                   type="button"
                   className="bg-gradient-to-r from-indigo-400 to-purple-500 text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 hover:from-indigo-500 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
                 >
@@ -111,7 +138,7 @@ const Navbar = () => {
                 </button>
               ) : (
                 <button
-                  onClick={() => logout({ returnTo: window.location.origin })}
+                  onClick={onLogout} // Use handleLogout for logout
                   type="button"
                   className="bg-gradient-to-r from-red-400 to-pink-500 text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 hover:from-red-500 hover:to-pink-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
                 >
@@ -135,29 +162,6 @@ const Navbar = () => {
                     )}
                   </MenuButton>
                 </div>
-                <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  {isAuthenticated ? (
-                    <MenuItem>
-                      <button
-                        onClick={() =>
-                          logout({ returnTo: window.location.origin })
-                        }
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        Sign Out
-                      </button>
-                    </MenuItem>
-                  ) : (
-                    <MenuItem>
-                      <button
-                        onClick={loginWithRedirect}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        Sign In
-                      </button>
-                    </MenuItem>
-                  )}
-                </MenuItems>
               </Menu>
             </div>
           </div>
@@ -183,6 +187,8 @@ const Navbar = () => {
           </div>
         </DisclosurePanel>
       </Disclosure>
+
+      {/* Render the appropriate modal */}
       {isModalOpen && renderModal()}
     </>
   );
