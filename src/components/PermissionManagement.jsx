@@ -43,12 +43,26 @@ const PermissionManagement = () => {
                 <td className="px-6 py-4 font-medium text-gray-900">
                   {role.name}
                 </td>
-                <td className="px-6 py-4">
-                  {rolePermissions[role.id]?.length
-                    ? rolePermissions[role.id].join(", ")
-                    : "No permission assigned"}
+                <td className="px-6 py-4 text-gray-700 dark:text-gray-500">
+                  <div className="flex flex-wrap gap-2">
+                    {rolePermissions[role.id]?.length ? (
+                      rolePermissions[role.id].map((permission, index) => (
+                        <div
+                          key={index}
+                          className="p-3 bg-white dark:bg-white-900 rounded-lg shadow-md w-auto"
+                        >
+                          {permission}
+                        </div>
+                      ))
+                    ) : (
+                      <span className="text-white-500 dark:text-white-400">
+                        No permission assigned
+                      </span>
+                    )}
+                  </div>
                 </td>
-                <td className="px-6 py-4 text-center space-x-2">
+
+                <td className="px-6 py-4 text-center space-y-2 sm:space-y-0 sm:space-x-2">
                   <button
                     onClick={() => toggleModal(role)}
                     className="text-white bg-gradient-to-r from-green-500 via-green-400 to-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 rounded-lg px-4 py-2 text-sm font-medium transition-all"

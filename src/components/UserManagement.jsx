@@ -19,7 +19,6 @@ const UserManagement = () => {
     setSelectedUser(user);
     setIsModalOpen((prev) => !prev);
   };
-  
 
   return (
     <>
@@ -55,22 +54,34 @@ const UserManagement = () => {
                 <td className="px-6 py-4 font-medium text-gray-900">
                   {user.name}
                 </td>
-                <td className="px-6 py-4">{user.email}</td>
-                <td className="px-6 py-4">
-                  {roles.find((role) => role.name === user.role)?.name ||
-                    "Unassigned"}
+                <td className="px-6 py-4 text-gray-700 dark:text-gray-500">
+                  {user.email}
                 </td>
-                <td className="px-6 py-4">{user.status}</td>
-                <td className="px-6 py-4 text-center space-x-2">
+                <td className="px-6 py-4 text-gray-700 dark:text-gray-500">
+                  <div className="flex flex-wrap">
+                    <div className="p-3 bg-white dark:bg-white-900 rounded-lg shadow-md w-auto">
+                      {roles.find((role) => role.name === user.role)?.name ||
+                        "Unassigned"}
+                    </div>
+                  </div>
+                </td>
+                <td className="px-6 py-4 text-gray-700 dark:text-gray-500">
+                  <div className="flex flex-wrap">
+                    <div className="p-3 bg-white dark:bg-white-900 rounded-lg shadow-md w-auto">
+                      {user.status}
+                    </div>
+                  </div>
+                </td>
+                <td className="px-6 py-4 text-center space-y-2 sm:space-y-0 sm:space-x-2">
                   <button
                     onClick={() => toggleModal(user)}
-                    className="text-white bg-gradient-to-r from-green-500 via-green-400 to-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 rounded-lg px-4 py-2 text-sm font-medium transition-all"
+                    className="text-white bg-gradient-to-r from-green-500 via-green-400 to-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 rounded-lg px-4 py-2 text-sm font-medium transition-all w-full sm:w-auto"
                   >
                     Update
                   </button>
                   <button
                     onClick={() => deleteUser(user.id)}
-                    className="text-white bg-gradient-to-r from-red-500 via-red-400 to-red-500 hover:bg-red-600 focus:ring-4 focus:ring-red-300 rounded-lg px-4 py-2 text-sm font-medium transition-all"
+                    className="text-white bg-gradient-to-r from-red-500 via-red-400 to-red-500 hover:bg-red-600 focus:ring-4 focus:ring-red-300 rounded-lg px-4 py-2 text-sm font-medium transition-all w-full sm:w-auto"
                   >
                     Delete
                   </button>

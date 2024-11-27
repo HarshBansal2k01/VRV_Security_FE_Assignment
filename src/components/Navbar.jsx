@@ -122,7 +122,7 @@ const Navbar = ({ onLogin, onLogout, isAuthenticated , user}) => {
                   }
                 }}
                 type="button"
-                className="bg-gradient-to-r from-green-400 to-blue-500 text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 hover:from-green-500 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="bg-gradient-to-r from-green-400 to-blue-500 text-white font-medium rounded-lg text-sm px-5 py-2 me-2 mb-2 hover:from-green-500 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 Add
               </button>
@@ -132,7 +132,7 @@ const Navbar = ({ onLogin, onLogout, isAuthenticated , user}) => {
                 <button
                   onClick={onLogin} // Use handleLogin for login
                   type="button"
-                  className="bg-gradient-to-r from-indigo-400 to-purple-500 text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 hover:from-indigo-500 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                  className="bg-gradient-to-r from-indigo-400 to-purple-500 text-white font-medium rounded-lg text-sm px-5 py-2 me-2 mb-2 hover:from-indigo-500 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
                 >
                   Log In
                 </button>
@@ -140,7 +140,7 @@ const Navbar = ({ onLogin, onLogout, isAuthenticated , user}) => {
                 <button
                   onClick={onLogout} // Use handleLogout for logout
                   type="button"
-                  className="bg-gradient-to-r from-red-400 to-pink-500 text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 hover:from-red-500 hover:to-pink-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+                  className="bg-gradient-to-r from-red-400 to-pink-500 text-white font-medium rounded-lg text-sm px-5 py-2 me-2 mb-2 hover:from-red-500 hover:to-pink-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
                 >
                   Log Out
                 </button>
